@@ -149,6 +149,7 @@ function Load_ParsPal_Gateway() {
 			}
 
 			public function Send_to_ParsPal_Gateway_By_HANNANStd($order_id){
+				ob_start();
 				global $woocommerce;
 				$woocommerce->session->order_id_parspal = $order_id;
 				$order = new WC_Order( $order_id );
@@ -176,6 +177,7 @@ function Load_ParsPal_Gateway() {
 					}
 					
 					$Amount = intval($order->order_total);
+					$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_before_check_currency', $Amount, $currency );
 					if ( strtolower($currency) == strtolower('IRR') || strtolower($currency) == strtolower('RIAL')
 						|| strtolower($currency) == strtolower('Iran Rial') || strtolower($currency) == strtolower('Iranian Rial')
 						|| strtolower($currency) == strtolower('Iran-Rial') || strtolower($currency) == strtolower('Iranian-Rial')
@@ -183,6 +185,14 @@ function Load_ParsPal_Gateway() {
 						|| strtolower($currency) == strtolower('ریال') || strtolower($currency) == strtolower('ریال ایران')
 					)
 						$Amount = $Amount/10;
+					else if ( strtolower($currency) == strtolower('IRHT') )							
+						$Amount = $Amount*1000;
+					else if ( strtolower($currency) == strtolower('IRHR') )					
+						$Amount = ($Amount*1000)/10;
+					
+					$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_after_check_currency', $Amount, $currency );
+					$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_irt', $Amount, $currency );
+					$Amount = apply_filters( 'woocommerce_order_amount_total_ParsPal_gateway', $Amount, $currency );
 			
 			
 					$Sandbox = $this->sandbox;
@@ -239,8 +249,18 @@ function Load_ParsPal_Gateway() {
 		
 						do_action( 'WC_ParsPal_Before_Send_to_Gateway', $order_id );
 		
-						header('Location: '.$res->RequestPaymentResult->PaymentPath);
-						exit;
+						ob_start();
+						if (!headers_sent()) {
+							header('Location: '.$res->RequestPaymentResult->PaymentPath);
+							ob_end_flush();
+							ob_end_clean();
+							exit;
+						}
+						else {
+							$redirect_page = $res->RequestPaymentResult->PaymentPath;
+							echo "<script type='text/javascript'>window.onload = function () { top.location.href = '" . $redirect_page . "'; };</script>";
+							exit;
+						}
 						
 					}
 					else {
@@ -282,7 +302,7 @@ function Load_ParsPal_Gateway() {
 						
 						
 						$Amount = intval($order->order_total);
-						
+						$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_before_check_currency', $Amount, $currency );
 						if ( strtolower($currency) == strtolower('IRR') || strtolower($currency) == strtolower('RIAL')
 							|| strtolower($currency) == strtolower('Iran Rial') || strtolower($currency) == strtolower('Iranian Rial')
 							|| strtolower($currency) == strtolower('Iran-Rial') || strtolower($currency) == strtolower('Iranian-Rial')
@@ -290,6 +310,14 @@ function Load_ParsPal_Gateway() {
 							|| strtolower($currency) == strtolower('ریال') || strtolower($currency) == strtolower('ریال ایران')
 						)
 							$Amount = $Amount/10;
+						else if ( strtolower($currency) == strtolower('IRHT') )							
+							$Amount = $Amount*1000;
+						else if ( strtolower($currency) == strtolower('IRHR') )					
+							$Amount = ($Amount*1000)/10;
+					
+						$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_after_check_currency', $Amount, $currency );
+						$Amount = apply_filters( 'woocommerce_order_amount_total_IRANIAN_gateways_irt', $Amount, $currency );
+						$Amount = apply_filters( 'woocommerce_order_amount_total_ParsPal_gateway', $Amount, $currency );
 						
 						
 						$Sandbox = $this->sandbox;
