@@ -45,6 +45,8 @@ You can read complete documentations on the [woocommerce.ir](http://www.woocomme
 2. payment page
 
 == Changelog ==
+= 4.0.2 =
+* رفع باگ
 = 4.0.1 =
 * سازگاری با واحد پولی هزار تومان و تعریف فیلتر برای واحد های پولی آینده
 = 4.0.0 =
@@ -52,6 +54,8 @@ You can read complete documentations on the [woocommerce.ir](http://www.woocomme
 
 
 == Upgrade Notice ==
+= 4.0.2 =
+* رفع باگ
 = 4.0.1 =
 * سازگاری با واحد پولی هزار تومان و تعریف فیلتر برای واحد های پولی آینده
 = 4.0.0 =

@@ -210,7 +210,7 @@ function Load_ParsPal_Gateway() {
 					$Description = 'خرید به شماره سفارش : '.$order->get_order_number();
 					$Email = $order->billing_email;
 					$Email = $Email ? $Email : '-';
-					$Mobile = get_post_meta( $order_id, '_billing_phone', true ) ? get_post_meta( $order_id, '_billing_phone', true ) : $this->get_phone_number_args( $order );
+					$Mobile = get_post_meta( $order_id, '_billing_phone', true ) ? get_post_meta( $order_id, '_billing_phone', true ) : '-';
 					$Mobile = (is_numeric($Mobile) && $Mobile ) ? $Mobile : '-';
 					$Paymenter = $order->billing_first_name.' '.$order->billing_last_name;
 					$Paymenter = $Paymenter ? $Paymenter : '-';

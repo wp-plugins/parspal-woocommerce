@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: درگاه پرداخت پارس پال افزونه ووکامرس
-Version: 4.0.1
+Version: 4.0.2
 Description:  درگاه پرداخت پارس پال برای افزونه ووکامرس
 Plugin URI: http://woocommerce.ir/
 Author: ووکامرس فارسی
